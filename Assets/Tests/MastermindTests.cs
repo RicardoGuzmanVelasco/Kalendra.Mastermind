@@ -49,13 +49,19 @@ namespace Tests
         [Test]
         public void OnlySameColor_ReturnsBlackPegs()
         {
-            var sut = Combination().AllOf(Red).Build();
-            var oneSamePosition = Combination().With(Red).Then(3, Blue).Build();
+            Combination().AllOf(Red).Build()
+                .AttemptMatchWith
+                (
+                    Combination().With(Red).Then(3, Blue).Build()
+                ).Should()
+                .BeEquivalentTo(Feedback().WithBlack().ThenNones(3).Build());
 
-            var expected = Feedback().WithBlack().ThenNones(3).Build();
-            sut.AttemptMatchWith(oneSamePosition)
-                .Should()
-                .BeEquivalentTo(expected);
+            Combination().AllOf(Green).Build()
+                .AttemptMatchWith
+                (
+                    Combination().With(Yellow).Then(3, Green).Build()
+                ).Should()
+                .BeEquivalentTo(Feedback().WithNone().ThenBlacks(3).Build());
         }
     }
 }

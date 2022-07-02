@@ -8,28 +8,41 @@ namespace Runtime.Domain
     public class Combination
     {
         public const int PegsCount = 4;
-        [NotNull] readonly ICollection<CodeColor> codepegs;
+        [NotNull] readonly IList<CodeColor> codePegs;
 
-        public Combination([NotNull] ICollection<CodeColor> codepegs)
+        public Combination([NotNull] IList<CodeColor> codePegs)
         {
-            Require(codepegs.Count == PegsCount).True();
+            Require(codePegs.Count == PegsCount).True();
 
-            this.codepegs = codepegs;
+            this.codePegs = codePegs;
         }
 
         [NotNull]
         public GuessFeedback AttemptMatchWith(Combination other)
         {
-            if(codepegs.First() == other.codepegs.First() && codepegs.Last() != other.codepegs.Last())
+            if(codePegs.First() == other.codePegs.First() && codePegs.Last() != other.codePegs.Last())
                 return new GuessFeedback(new[] { KeyColor.Black }.Concat(Enumerable.Repeat(KeyColor.None, 3))
                     .ToArray());
-            if(!codepegs.Intersect(other.codepegs).Any())
+            if(!codePegs.Intersect(other.codePegs).Any())
                 return new GuessFeedback(Enumerable.Repeat(KeyColor.White, PegsCount).ToList());
-            else
+            if(codePegs.SequenceEqual(other.codePegs))
                 return new GuessFeedback(Enumerable.Repeat(KeyColor.Black, PegsCount).ToList());
+
+            var keyPegs = new List<KeyColor>();
+            for(var i = 0; i < codePegs.Count; i++)
+                if(codePegs[i] == other.codePegs[i])
+                    keyPegs.Add(KeyColor.Black);
+                else
+                    keyPegs.Add(KeyColor.None);
+
+            return new GuessFeedback(keyPegs);
         }
 
         #region Formatting
+        public override string ToString()
+        {
+            return string.Join(" ", codePegs.Select(c => c.ToString()));
+        }
         #endregion
     }
 }
