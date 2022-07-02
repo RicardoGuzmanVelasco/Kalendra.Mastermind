@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using RGV.DesignByContract.Runtime;
 using static RGV.DesignByContract.Runtime.Precondition;
 
 namespace Runtime.Domain
@@ -12,7 +11,7 @@ namespace Runtime.Domain
         public GuessFeedback(ICollection<KeyColor> keypegs)
         {
             Require(keypegs.Count == 4).True();
-            
+
             this.keypegs = keypegs;
         }
 
@@ -27,5 +26,12 @@ namespace Runtime.Domain
         }
 
         public int Count => keypegs.Count;
+
+        #region Formatting
+        public override string ToString()
+        {
+            return string.Join(" ", keypegs);
+        }
+        #endregion
     }
 }

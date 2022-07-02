@@ -2,6 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 using Runtime.Domain;
+using static System.Linq.Enumerable;
 
 namespace Tests
 {
@@ -28,16 +29,17 @@ namespace Tests
             var sut = new Combination(docColors);
 
             sut.AttemptMatchWith(new Combination(docColors))
-                .Should()
-                .HaveCount(4)
-                .And
-                .OnlyContain(c => c == KeyColor.Black);
+                .Should().OnlyContain(c => c == KeyColor.Black);
         }
 
         [Test]
         public void DisjuntCombination_AskedForFeedback_IsFourWhitePegs()
         {
-            
+            var sut = new Combination(Repeat(CodeColor.Red, 4).ToArray());
+            var disjuntCombination = new Combination(Repeat(CodeColor.Blue, 4).ToArray());
+
+            sut.AttemptMatchWith(disjuntCombination)
+                .Should().OnlyContain(c => c == KeyColor.White);
         }
     }
 }
