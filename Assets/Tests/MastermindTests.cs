@@ -41,5 +41,15 @@ namespace Tests
             sut.AttemptMatchWith(disjuntCombination)
                 .Should().OnlyContain(c => c == KeyColor.White);
         }
+
+        [Test]
+        public void OnlySameColor_ReturnsBlackPegs()
+        {
+            var sut = new Combination(Repeat(CodeColor.Red, 4).ToArray());
+            var oneSamePosition = new Combination(new[] { CodeColor.Red }.Concat(Repeat(CodeColor.Blue, 3)).ToArray());
+
+            sut.AttemptMatchWith(oneSamePosition).First().Should().Be(KeyColor.Black);
+            sut.AttemptMatchWith(oneSamePosition).Where(c => c == KeyColor.Black).Should().HaveCount(1);
+        }
     }
 }
