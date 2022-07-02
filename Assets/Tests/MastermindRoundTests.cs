@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 using static Tests.GuessFeedbackBuilder;
+using static Tests.BoardBuilder;
 
 namespace Tests
 {
-    public class MastermindTests
+    public class MastermindRoundTests
     {
         [Test]
         public void Feedback_Knows_IfEndsTheRound()
@@ -26,6 +27,14 @@ namespace Tests
             Feedback().WithBlacks(3).WithWhites(1).Build()
                 .IsEndOfRound
                 .Should().BeFalse();
+        }
+
+        [Test]
+        public void Board_Starts_WaitingForGuess()
+        {
+            Board().Build()
+                .IsWaitingForGuess
+                .Should().BeTrue();
         }
     }
 }
