@@ -7,15 +7,39 @@ right footer (CC-BY-SA) 2022, RGV
 
 start
 :Decide each player roles;
-while (match winner?)
+repeat
     :Prepare board;
     :Codemaker places secret code;
-    while (winner?)
-        :Play Round;
+    while (completed round?)
+        -> no;
+        :Play round;
+    endwhile
+    -> [feedback == 4 black pegs];
+    :Add round points;
+    backward:Switch roles;
+repeat while (there is a match winner?)
+-> [any player points >= \npoints to win match];
+stop
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+start
+:Decide each player roles;
+repeat
+    :Prepare board;
+    partition "Codemaker places secret code"{
+        :(codemaker)\nMake a combination\n(as secret code);
+    }
+    while (completed round?)
+        partition "Play round"{
+            :(codebreaker)\nMake a combination\n(as guess);
+            :(codemaker)\nCheck the guess\n(as feedback);
+        }
     endwhile([feedback == 4 black pegs])
     :Add round points;
-    :Switch roles;
-end while ([any player points >=\npoints to win match])
+    backward:Switch roles;
+repeat while (there is a match winner?)
+-> [any player points >= \npoints to win match];
 stop
 
 @enduml
