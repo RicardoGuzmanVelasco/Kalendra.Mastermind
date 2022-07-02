@@ -25,10 +25,6 @@ namespace Runtime.Domain
             for(var i = 0; i < codePegs.Count; i++)
                 if(codePegs[i] == other.codePegs[i])
                     keyPegs[i] = KeyColor.Black;
-
-            for(var i = 0; i < codePegs.Count; i++)
-                if(codePegs.Contains(other.codePegs[i]))
-                    keyPegs[i] = KeyColor.White;
                 else
                     keyPegs[i] = KeyColor.Empty;
 

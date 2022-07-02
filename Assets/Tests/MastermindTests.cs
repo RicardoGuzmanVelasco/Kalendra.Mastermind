@@ -25,14 +25,28 @@ namespace Tests
         }
 
         [Test]
+        public void GuessFeedback_Equality()
+        {
+            Feedback().AllBlacks().Build()
+                .Should().Be(Feedback().AllBlacks().Build());
+            Feedback().AllWhites().Build()
+                .Should().NotBe(Feedback().AllBlacks().Build());
+
+            Feedback().WithBlacks(2).WithWhites(1).WithEmpty(1).Build()
+                .Should().Be(Feedback().WithBlacks(2).WithWhites(1).WithEmpty(1).Build());
+
+            Feedback().WithEmpty(2).WithBlacks(1).WithWhites(1).Build()
+                .Should().Be(Feedback().WithBlacks(1).WithWhites(1).WithEmpty(2).Build());
+        }
+
+        [Test]
         public void SameCombination_AskedForFeedback_IsFourBlackPegs()
         {
-            var docColors = 4.CodeColors();
-            var sut = new Combination(docColors);
+            var sut = Combination().AllRandom().Build();
 
-            sut.AttemptMatchWith(new Combination(docColors))
+            sut.AttemptMatchWith(sut)
                 .Should()
-                .BeEquivalentTo(Feedback().AllBlacks().Build());
+                .Be(Feedback().AllBlacks().Build());
         }
 
         [Test]
@@ -43,7 +57,7 @@ namespace Tests
 
             sut.AttemptMatchWith(disjuntCombination)
                 .Should()
-                .BeEquivalentTo(Feedback().AllEmpty().Build());
+                .Be(Feedback().AllEmpty().Build());
         }
 
         [Test]
@@ -55,7 +69,7 @@ namespace Tests
                     Combination().With(Red).Then(3, Blue).Build()
                 )
                 .Should()
-                .BeEquivalentTo(Feedback().WithBlacks(1).WithEmpty(3).Build());
+                .Be(Feedback().WithBlacks(1).WithEmpty(3).Build());
 
             Combination().AllOf(Green).Build()
                 .AttemptMatchWith
@@ -63,7 +77,7 @@ namespace Tests
                     Combination().With(Yellow).Then(3, Green).Build()
                 )
                 .Should()
-                .BeEquivalentTo(Feedback().WithEmpty(1).WithBlacks(3).Build());
+                .Be(Feedback().WithEmpty(1).WithBlacks(3).Build());
 
             Combination().With(Red, Green, Red, Green).Build()
                 .AttemptMatchWith
@@ -71,7 +85,7 @@ namespace Tests
                     Combination().AllOf(Green).Build()
                 )
                 .Should()
-                .BeEquivalentTo(Feedback().WithEmpty(2).WithBlacks(2).Build());
+                .Be(Feedback().WithEmpty(2).WithBlacks(2).Build());
         }
 
         [Test]
@@ -82,7 +96,8 @@ namespace Tests
                 (
                     Combination().With(Green, Red, Yellow, Blue).Build()
                 )
-                .Should().BeEquivalentTo(Feedback().AllWhites().Build());
+                .Should()
+                .Be(Feedback().AllWhites().Build());
         }
 
         [Test]
@@ -93,7 +108,8 @@ namespace Tests
                 (
                     Combination().With(Yellow, Blue, Yellow, Blue).Build()
                 )
-                .Should().BeEquivalentTo(Feedback().AllWhites().Build());
+                .Should()
+                .Be(Feedback().AllWhites().Build());
         }
     }
 }

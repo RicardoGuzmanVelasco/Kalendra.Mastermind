@@ -1,36 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using static RGV.DesignByContract.Runtime.Precondition;
 
 namespace Runtime.Domain
 {
-    public class GuessFeedback : IReadOnlyCollection<KeyColor>
+    public class GuessFeedback
     {
-        readonly ICollection<KeyColor> keypegs;
+        readonly IDictionary<KeyColor, int> keypegs;
 
         public GuessFeedback(ICollection<KeyColor> keypegs)
         {
             Require(keypegs.Count == 4).True();
 
-            this.keypegs = keypegs;
+            this.keypegs = keypegs.Distinct().ToDictionary
+            (
+                color => color,
+                color => keypegs.Count(c => c == color)
+            );
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        #region Equality
+        public override bool Equals(object obj)
         {
-            return GetEnumerator();
+            return obj is GuessFeedback other &&
+                   keypegs.Keys.All
+                   (
+                       key => other.keypegs.ContainsKey(key) &&
+                              keypegs[key] == other.keypegs[key]
+                   );
         }
 
-        public IEnumerator<KeyColor> GetEnumerator()
+        public override int GetHashCode()
         {
-            return keypegs.GetEnumerator();
+            return keypegs != null ? keypegs.GetHashCode() : 0;
         }
-
-        public int Count => keypegs.Count;
+        #endregion
 
         #region Formatting
         public override string ToString()
         {
-            return string.Join(" ", keypegs);
+            return string.Join
+            (
+                " ",
+                keypegs.Select(pair => $"{pair.Value}x{pair.Key.ToString()}")
+            );
         }
         #endregion
     }
