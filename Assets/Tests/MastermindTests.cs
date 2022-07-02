@@ -2,9 +2,9 @@
 using FluentAssertions;
 using NUnit.Framework;
 using Runtime.Domain;
-using static System.Linq.Enumerable;
 using static Runtime.Domain.CodeColor;
 using static Tests.CombinationBuilder;
+using static Tests.GuessFeedbackBuilder;
 
 namespace Tests
 {
@@ -31,7 +31,8 @@ namespace Tests
             var sut = new Combination(docColors);
 
             sut.AttemptMatchWith(new Combination(docColors))
-                .Should().OnlyContain(c => c == KeyColor.Black);
+                .Should()
+                .BeEquivalentTo(AllBlacks());
         }
 
         [Test]
@@ -41,7 +42,8 @@ namespace Tests
             var disjuntCombination = Combination().AllOf(Blue).Build();
 
             sut.AttemptMatchWith(disjuntCombination)
-                .Should().OnlyContain(c => c == KeyColor.White);
+                .Should()
+                .BeEquivalentTo(AllWhites());
         }
 
         [Test]
@@ -50,8 +52,10 @@ namespace Tests
             var sut = Combination().AllOf(Red).Build();
             var oneSamePosition = Combination().With(Red).Then(3, Blue).Build();
 
-            sut.AttemptMatchWith(oneSamePosition).First().Should().Be(KeyColor.Black);
-            sut.AttemptMatchWith(oneSamePosition).Where(c => c == KeyColor.Black).Should().HaveCount(1);
+            var expected = Feedback().WithBlack().ThenNones(3).Build();
+            sut.AttemptMatchWith(oneSamePosition)
+                .Should()
+                .BeEquivalentTo(expected);
         }
     }
 }

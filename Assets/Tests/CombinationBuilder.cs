@@ -8,7 +8,7 @@ namespace Tests
 {
     internal class CombinationBuilder
     {
-        List<CodeColor> colors = new List<CodeColor>();
+        readonly List<CodeColor> colors = new List<CodeColor>();
 
         public static CombinationBuilder Combination()
         {
@@ -71,7 +71,7 @@ namespace Tests
         {
             Require(colors.Count == Runtime.Domain.Combination.PegsCount).True();
 
-            return new Combination(colors.ToArray());
+            return new Combination(colors);
         }
     }
 }
