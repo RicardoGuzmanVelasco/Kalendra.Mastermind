@@ -1,7 +1,9 @@
 {
     "name": "Kalendra.Mastermind.Domain",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "RGV.DesignByContract"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
