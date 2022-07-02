@@ -41,8 +41,6 @@ W
 'ProjectSettings/Physics2DSettings.asset,e\d\ed18f20dbc51e47c3057c29420904eeadf3949ae
 R
 "ProjectSettings/ProjectVersion.txt,b\0\b0589bd2976ea622442f59ada87a8d9f9e407a9e
-U
-%ProjectSettings/ProjectSettings.asset,f\2\f2ed32d7c38fb54ca0f77eb9645108b362199c9d
 P
  ProjectSettings/TagManager.asset,b\b\bb5c31022a6bdb0c8de055d7b2657e774af959a3
 U
@@ -73,3 +71,7 @@ e
 5Assets/Documentation~/Context-Make_a_Combination.puml,0\5\059180686aa5e25d2e7fca13465fd1b0f3693408
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+\
+,ProjectSettings/PackageManagerSettings.asset,d\9\d99f9d0a5fdbfb6c159aac394d97e39e4bdf2aa5
+]
+-Assets/Tests/Kalendra.Mastermind.Tests.asmdef,7\d\7d58a56819baf865bf6e6564f74beaea95f1ca4b
