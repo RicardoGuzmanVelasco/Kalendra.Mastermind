@@ -18,18 +18,34 @@ namespace Runtime.Domain
         }
 
         [NotNull]
-        public GuessFeedback AttemptMatchWith(Combination other)
+        public GuessFeedback MatchWith(Combination other)
         {
-            var keyPegs = new KeyColor[PegsCount];
+            var keyPegs = new KeyColor[PegsCount]; //All empty by default.
 
-            for(var i = 0; i < codePegs.Count; i++)
-                if(codePegs[i] == other.codePegs[i])
-                    keyPegs[i] = KeyColor.Black;
-                else
-                    keyPegs[i] = KeyColor.Empty;
+            MatchBlacks(other, ref keyPegs);
+            MatchWhites(other, ref keyPegs);
 
             return new GuessFeedback(keyPegs);
         }
+
+        void MatchBlacks(Combination other, ref KeyColor[] keyPegs)
+        {
+            for(var i = 0; i < codePegs.Count; i++)
+                if(codePegs[i] == other.codePegs[i])
+                    keyPegs[i] = KeyColor.Black;
+        }
+
+        void MatchWhites(Combination other, ref KeyColor[] keyPegs)
+        {
+            for(var i = 0; i < codePegs.Count; i++)
+            {
+                if(keyPegs[i] == KeyColor.Black)
+                    continue;
+                if(codePegs.Count(c => c == other.codePegs[i]) > keyPegs.Count(c => c == KeyColor.Black))
+                    keyPegs[i] = KeyColor.White;
+            }
+        }
+
 
         #region Formatting
         public override string ToString()

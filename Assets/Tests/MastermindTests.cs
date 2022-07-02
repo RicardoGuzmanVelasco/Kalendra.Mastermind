@@ -44,7 +44,7 @@ namespace Tests
         {
             var sut = Combination().AllRandom().Build();
 
-            sut.AttemptMatchWith(sut)
+            sut.MatchWith(sut)
                 .Should()
                 .Be(Feedback().AllBlacks().Build());
         }
@@ -55,7 +55,7 @@ namespace Tests
             var sut = Combination().AllOf(Red).Build();
             var disjuntCombination = Combination().AllOf(Blue).Build();
 
-            sut.AttemptMatchWith(disjuntCombination)
+            sut.MatchWith(disjuntCombination)
                 .Should()
                 .Be(Feedback().AllEmpty().Build());
         }
@@ -64,7 +64,7 @@ namespace Tests
         public void OnlySameColor_ReturnsBlackPegs()
         {
             Combination().AllOf(Red).Build()
-                .AttemptMatchWith
+                .MatchWith
                 (
                     Combination().With(Red).Then(3, Blue).Build()
                 )
@@ -72,7 +72,7 @@ namespace Tests
                 .Be(Feedback().WithBlacks(1).WithEmpty(3).Build());
 
             Combination().AllOf(Green).Build()
-                .AttemptMatchWith
+                .MatchWith
                 (
                     Combination().With(Yellow).Then(3, Green).Build()
                 )
@@ -80,7 +80,7 @@ namespace Tests
                 .Be(Feedback().WithEmpty(1).WithBlacks(3).Build());
 
             Combination().With(Red, Green, Red, Green).Build()
-                .AttemptMatchWith
+                .MatchWith
                 (
                     Combination().AllOf(Green).Build()
                 )
@@ -89,10 +89,22 @@ namespace Tests
         }
 
         [Test]
+        public void OnlyOneCommon_InDiffPosition_ReturnsOneWhite()
+        {
+            Combination().With(Yellow, Green, Green, Green).Build()
+                .MatchWith
+                (
+                    Combination().With(Red, Yellow, Red, Red).Build()
+                )
+                .Should()
+                .Be(Feedback().WithWhites(1).WithEmpty(3).Build());
+        }
+
+        [Test, Ignore("Todo")]
         public void SameFourColors_NotRepeated_AndNotTheSamePositions_AllWhites()
         {
             Combination().With(Blue, Yellow, Red, Green).Build()
-                .AttemptMatchWith
+                .MatchWith
                 (
                     Combination().With(Green, Red, Yellow, Blue).Build()
                 )
@@ -100,11 +112,11 @@ namespace Tests
                 .Be(Feedback().AllWhites().Build());
         }
 
-        [Test]
+        [Test, Ignore("Todo")]
         public void SameTwoColors_Repeated_ButNotTheSamePositions_AllWhites()
         {
             Combination().With(Blue, Yellow, Blue, Yellow).Build()
-                .AttemptMatchWith
+                .MatchWith
                 (
                     Combination().With(Yellow, Blue, Yellow, Blue).Build()
                 )
