@@ -19,6 +19,11 @@ namespace Runtime.Domain
             );
         }
 
+        public bool IsEndOfRound =>
+            keypegs.TryGetValue(KeyColor.Black, out var blacks)
+            && blacks == Combination.PegsCount;
+
+
         #region Equality
         public override bool Equals(object obj)
         {
