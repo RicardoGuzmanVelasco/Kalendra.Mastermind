@@ -1,0 +1,29 @@
+﻿@startuml
+skin rose
+
+header Mastermind context
+title Make a combination
+right footer (CC-BY-SA) 2022, RGV
+
+start
+    :Choose a row to place
+    the combination in;
+    -> [all holes are empty];
+    :Select the first
+    empty hole;
+repeat
+    :Pick a code peg;
+    -> [color of the peg
+    may be repeated];
+    :Put it in the empty hole;
+    
+    backward: Move to next
+    empty hole;
+    
+    -> [empty holes are
+    decremented by 1];
+    
+repeat while (combination is completed?)
+-> [no empty holes];
+stop
+@enduml

@@ -1,0 +1,32 @@
+﻿@startuml
+skin rose
+
+header Mastermind context
+title Give feedback of a guess
+right footer (CC-BY-SA) 2022, RGV
+
+start
+    -> [a secret code exists];
+    :Receive a guess combination;
+    -> [in the feedback holes
+    of the same row where the
+    guess have been placed];
+    :Select the first
+    hole of the feedback;
+repeat
+    :Compare position of
+    the guess combination
+    with the secret code;
+    switch()
+        case ( [they are the same color]\n\n)
+            :Place a **black** key peg;
+        case ( [they are not the same color\n but the color is elsewhere\n in the secret code])
+            :Place a **white** key peg;
+        case ( [the guessed color is not\n in the secret code at all]\n)
+            :Keep the hole **empty**;
+    endswitch
+    backward: Move to the next hole;
+repeat while (feedback is completed?)
+-> [all positions were compared];
+stop
+@enduml

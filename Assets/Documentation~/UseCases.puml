@@ -1,0 +1,48 @@
+﻿@startuml
+skin rose
+
+'skinparam linetype polyline
+'skinparam linetype ortho
+left to right direction
+
+header Mastermind
+title Use cases
+right footer (CC-BY-SA) 2022, RGV
+
+:Player:
+:Codemaker:
+:Codebreaker:
+
+Codemaker -u-|> Player
+Codebreaker -u-|> Player
+
+package "Start a round"{
+Player --> (Switch role)
+}
+
+note right of (Switch role)
+      AVISO AL LECTOR
+---
+Esto NO tiene por qué ser
+un caso de uso, ya que una
+vez realizado en software
+no sería una conversación
+que inicie el actor, sino una
+consecuencia automática de
+jugar una ronda.
+end note
+
+package "Start a match"{
+Player --> (Choose role)
+}
+
+package "Play a round" as Play{
+Codemaker --> (Place secret code)
+Codemaker --> (Give feedback)
+
+Codebreaker --> (Attempt a guess)
+}
+
+Player --> (Play a round)
+Play .l.|> (Play a round) : realization
+@enduml
