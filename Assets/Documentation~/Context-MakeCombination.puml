@@ -2,16 +2,21 @@
 skin rose
 
 header Mastermind context
-title Match
+title Combinations-making
 right footer (CC-BY-SA) 2022, RGV
 
 start
 :Decide each player roles;
 while (match winner?)
     :Prepare board;
-    :Codemaker places secret code;
+    partition "Codemaker places secret code"{
+        :(codemaker)\nMake a combination\n(as secret code);
+    }
     while (winner?)
-        :Play Round;
+        partition "Play round"{
+            :(codebreaker)\nMake a combination\n(as guess);
+            :(codemaker)\nCheck the guess\n(as feedback);
+        }
     endwhile([feedback == 4 black pegs])
     :Add round points;
     :Switch roles;

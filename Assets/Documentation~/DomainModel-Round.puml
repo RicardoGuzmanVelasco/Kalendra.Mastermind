@@ -5,7 +5,7 @@ header Mastermind domain model
 title Round
 right footer (CC-BY-SA) 2022, RGV
 
-class Guest
+class Guess
 class Feedback
 class SecretCode
 class Winner
@@ -30,10 +30,10 @@ SecretCode --|> Combination
 Combination o-- "4" CodePeg
 CodePeg o-- CodeColor
 
-Winner ..> SecretCode : guesses
+Winner ..> SecretCode : has\nguessed
 Codemaker ..> SecretCode : places
-Codebreaker --> Guest : makes
-Guest ..> SecretCode : attempts\nmatch\nto
+Codebreaker --> Guess : makes
+Guess ..> SecretCode : attempts\nmatch\nto
 
 Winner -u-|> Codebreaker
 Codebreaker -u-|> Player
@@ -51,8 +51,8 @@ Row *-- Feedback : has\nholes\nfor
 Feedback --> SecretCode : relates\nto
 Feedback --> Combination : relative\nto
 
-Guest o-- Combination
-Feedback --> Guest : responses\nto
+Guess o-- Combination
+Feedback --> Guess : responses\nto
 
 
 @enduml

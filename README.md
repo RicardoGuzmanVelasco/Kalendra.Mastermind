@@ -9,3 +9,5 @@ Ejemplo de MasterMind dirigido desde modelo de dominio y casos de uso e implemen
 ## Contexto
 
 ![](Assets/Documentation~/Context-Match.png)
+
+![](Assets/Documentation~/Context-Combinations_making.png)
