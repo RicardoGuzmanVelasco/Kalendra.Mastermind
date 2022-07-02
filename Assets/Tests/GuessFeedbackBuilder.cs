@@ -14,42 +14,13 @@ namespace Tests
             return new GuessFeedbackBuilder();
         }
 
-        #region Object mothers
-        public static GuessFeedback AllBlacks()
-        {
-            return Feedback().AllOf(KeyColor.Black).Build();
-        }
+        public GuessFeedbackBuilder AllBlacks() => WithBlacks(4);
+        public GuessFeedbackBuilder AllWhites() => WithWhites(4);
+        public GuessFeedbackBuilder AllEmpty() => WithEmpty(4);
 
-        public static GuessFeedback AllWhites()
-        {
-            return Feedback().AllOf(KeyColor.White).Build();
-        }
-
-        public static GuessFeedback AllEmpty()
-        {
-            return Feedback().AllOf(KeyColor.None).Build();
-        }
-        #endregion
-
-        public GuessFeedbackBuilder WithNone() => With(1, KeyColor.None);
-        public GuessFeedbackBuilder WithBlack() => With(1, KeyColor.Black);
-        public GuessFeedbackBuilder WithWhite() => With(1, KeyColor.White);
-
-        public GuessFeedbackBuilder ThenBlacks(int count) => With(count, KeyColor.Black);
-        public GuessFeedbackBuilder ThenWhites(int count) => With(count, KeyColor.White);
-        public GuessFeedbackBuilder ThenNones(int count) => With(count, KeyColor.None);
-
-        public GuessFeedbackBuilder ThenNone() => WithNone();
-        public GuessFeedbackBuilder ThenWhite() => WithWhite();
-        public GuessFeedbackBuilder ThenBlack() => WithBlack();
-
-        #region Support methods
-        GuessFeedbackBuilder AllOf(KeyColor color)
-        {
-            Require(colors.Any()).False();
-
-            return With(Combination.PegsCount, color);
-        }
+        public GuessFeedbackBuilder WithBlacks(int count) => With(count, KeyColor.Black);
+        public GuessFeedbackBuilder WithWhites(int count) => With(count, KeyColor.White);
+        public GuessFeedbackBuilder WithEmpty(int count) => With(count, KeyColor.Empty);
 
         GuessFeedbackBuilder With(int count, KeyColor color)
         {
@@ -58,7 +29,6 @@ namespace Tests
             colors.AddRange(Enumerable.Repeat(color, count));
             return this;
         }
-        #endregion
 
         public GuessFeedback Build()
         {

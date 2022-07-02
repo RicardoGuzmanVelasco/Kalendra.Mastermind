@@ -32,7 +32,7 @@ namespace Tests
 
             sut.AttemptMatchWith(new Combination(docColors))
                 .Should()
-                .BeEquivalentTo(AllBlacks());
+                .BeEquivalentTo(Feedback().AllBlacks().Build());
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Tests
 
             sut.AttemptMatchWith(disjuntCombination)
                 .Should()
-                .BeEquivalentTo(AllEmpty());
+                .BeEquivalentTo(Feedback().AllEmpty().Build());
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace Tests
                     Combination().With(Red).Then(3, Blue).Build()
                 )
                 .Should()
-                .BeEquivalentTo(Feedback().WithBlack().ThenNones(3).Build());
+                .BeEquivalentTo(Feedback().WithBlacks(1).WithEmpty(3).Build());
 
             Combination().AllOf(Green).Build()
                 .AttemptMatchWith
@@ -63,7 +63,7 @@ namespace Tests
                     Combination().With(Yellow).Then(3, Green).Build()
                 )
                 .Should()
-                .BeEquivalentTo(Feedback().WithNone().ThenBlacks(3).Build());
+                .BeEquivalentTo(Feedback().WithEmpty(1).WithBlacks(3).Build());
 
             Combination().With(Red, Green, Red, Green).Build()
                 .AttemptMatchWith
@@ -71,7 +71,7 @@ namespace Tests
                     Combination().AllOf(Green).Build()
                 )
                 .Should()
-                .BeEquivalentTo(Feedback().WithNone().ThenBlack().ThenNone().ThenBlack().Build());
+                .BeEquivalentTo(Feedback().WithEmpty(2).WithBlacks(2).Build());
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Tests
                 (
                     Combination().With(Green, Red, Yellow, Blue).Build()
                 )
-                .Should().BeEquivalentTo(AllWhites());
+                .Should().BeEquivalentTo(Feedback().AllWhites().Build());
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Tests
                 (
                     Combination().With(Yellow, Blue, Yellow, Blue).Build()
                 )
-                .Should().BeEquivalentTo(AllWhites());
+                .Should().BeEquivalentTo(Feedback().AllWhites().Build());
         }
     }
 }

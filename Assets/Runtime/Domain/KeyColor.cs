@@ -2,7 +2,7 @@
 {
     public enum KeyColor
     {
-        None,
+        Empty,
         White,
         Black,
     }
