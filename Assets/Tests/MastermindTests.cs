@@ -62,6 +62,13 @@ namespace Tests
                     Combination().With(Yellow).Then(3, Green).Build()
                 ).Should()
                 .BeEquivalentTo(Feedback().WithNone().ThenBlacks(3).Build());
+
+            Combination().With(Red).Then(Green).Then(Red).Then(Green).Build()
+                .AttemptMatchWith
+                (
+                    Combination().AllOf(Green).Build()
+                ).Should()
+                .BeEquivalentTo(Feedback().WithNone().ThenBlack().ThenNone().ThenBlack().Build());
         }
     }
 }
