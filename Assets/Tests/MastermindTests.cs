@@ -36,14 +36,14 @@ namespace Tests
         }
 
         [Test]
-        public void DisjuntCombination_AskedForFeedback_IsFourWhitePegs()
+        public void DisjuntCombination_AskedForFeedback_IsFourEmptyPegs()
         {
             var sut = Combination().AllOf(Red).Build();
             var disjuntCombination = Combination().AllOf(Blue).Build();
 
             sut.AttemptMatchWith(disjuntCombination)
                 .Should()
-                .BeEquivalentTo(AllWhites());
+                .BeEquivalentTo(AllEmpty());
         }
 
         [Test]

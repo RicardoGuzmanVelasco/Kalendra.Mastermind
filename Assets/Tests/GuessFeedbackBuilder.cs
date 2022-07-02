@@ -24,6 +24,11 @@ namespace Tests
         {
             return Feedback().AllOf(KeyColor.White).Build();
         }
+
+        public static GuessFeedback AllEmpty()
+        {
+            return Feedback().AllOf(KeyColor.None).Build();
+        }
         #endregion
 
         public GuessFeedbackBuilder WithNone() => With(1, KeyColor.None);

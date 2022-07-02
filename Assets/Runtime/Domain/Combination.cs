@@ -20,14 +20,6 @@ namespace Runtime.Domain
         [NotNull]
         public GuessFeedback AttemptMatchWith(Combination other)
         {
-            if(codePegs.First() == other.codePegs.First() && codePegs.Last() != other.codePegs.Last())
-                return new GuessFeedback(new[] { KeyColor.Black }.Concat(Enumerable.Repeat(KeyColor.None, 3))
-                    .ToArray());
-            if(!codePegs.Intersect(other.codePegs).Any())
-                return new GuessFeedback(Enumerable.Repeat(KeyColor.White, PegsCount).ToList());
-            if(codePegs.SequenceEqual(other.codePegs))
-                return new GuessFeedback(Enumerable.Repeat(KeyColor.Black, PegsCount).ToList());
-
             var keyPegs = new List<KeyColor>();
             for(var i = 0; i < codePegs.Count; i++)
                 if(codePegs[i] == other.codePegs[i])
