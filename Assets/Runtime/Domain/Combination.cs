@@ -38,11 +38,23 @@ namespace Runtime.Domain
         void MatchWhites(Combination other, ref KeyColor[] keyPegs)
         {
             for(var i = 0; i < codePegs.Count; i++)
-            {
-                if(keyPegs[i] == KeyColor.Black)
-                    continue;
-                if(codePegs.Count(c => c == other.codePegs[i]) > keyPegs.Count(c => c == KeyColor.Black))
+                if(keyPegs[i] != KeyColor.Black && DerivesInWhiteKeyPeg(i))
                     keyPegs[i] = KeyColor.White;
+
+            bool DerivesInWhiteKeyPeg(int i)
+            {
+                return MyPegsCountOfColor(other.codePegs[i])
+                       > BlacksDerivedOfColor(other.codePegs[i]);
+
+                int MyPegsCountOfColor(CodeColor color)
+                {
+                    return codePegs.Count(c => c == color);
+                }
+
+                int BlacksDerivedOfColor(CodeColor color)
+                {
+                    return codePegs.Where((t, index) => t == other.codePegs[index] && t == color).Count();
+                }
             }
         }
 

@@ -98,6 +98,14 @@ namespace Tests
                 )
                 .Should()
                 .Be(Feedback().WithWhites(1).WithEmpty(3).Build());
+
+            Combination().With(Green, Green, Yellow, Green).Build()
+                .MatchWith
+                (
+                    Combination().With(Red, Red, Red, Yellow).Build()
+                )
+                .Should()
+                .Be(Feedback().WithWhites(1).WithEmpty(3).Build());
         }
 
         [Test]
@@ -122,6 +130,42 @@ namespace Tests
                 )
                 .Should()
                 .Be(Feedback().AllWhites().Build());
+        }
+
+        [Test]
+        public void UserManual_Examples()
+        {
+            Combination().With(Red, Blue, Red, Yellow).Build()
+                .MatchWith
+                (
+                    Combination().With(Green, Red, Red, White).Build()
+                )
+                .Should()
+                .Be(Feedback().WithBlacks(1).WithWhites(1).WithEmpty(2).Build());
+
+            Combination().With(Yellow, Blue, Yellow, Black).Build()
+                .MatchWith
+                (
+                    Combination().With(Red, Yellow, Green, White).Build()
+                )
+                .Should()
+                .Be(Feedback().WithWhites(1).WithEmpty(3).Build());
+
+            Combination().With(Red, Blue, Green, Black).Build()
+                .MatchWith
+                (
+                    Combination().With(White, Yellow, Green, Green).Build()
+                )
+                .Should()
+                .Be(Feedback().WithBlacks(1).WithEmpty(3).Build());
+
+            Combination().With(Red, White, Blue, Green).Build()
+                .MatchWith
+                (
+                    Combination().With(White, Yellow, Blue, Black).Build()
+                )
+                .Should()
+                .Be(Feedback().WithBlacks(1).WithWhites(1).WithEmpty(2).Build());
         }
     }
 }
