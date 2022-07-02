@@ -49,22 +49,17 @@ namespace Tests
             return this;
         }
 
-        public CombinationBuilder With(CodeColor color)
+        public CombinationBuilder With(params CodeColor[] someColors)
         {
             Require(colors.Count).LesserThan(Runtime.Domain.Combination.PegsCount);
 
-            colors.Add(color);
+            colors.AddRange(someColors);
             return this;
         }
 
         public CombinationBuilder Then(int count, CodeColor color)
         {
             return With(count, color);
-        }
-
-        public CombinationBuilder Then(CodeColor color)
-        {
-            return With(color);
         }
 
         public Combination Build()

@@ -20,12 +20,18 @@ namespace Runtime.Domain
         [NotNull]
         public GuessFeedback AttemptMatchWith(Combination other)
         {
-            var keyPegs = new List<KeyColor>();
+            var keyPegs = new KeyColor[PegsCount];
             for(var i = 0; i < codePegs.Count; i++)
                 if(codePegs[i] == other.codePegs[i])
-                    keyPegs.Add(KeyColor.Black);
+                    keyPegs[i] = KeyColor.Black;
+
+            for(var i = 0; i < codePegs.Count; i++)
+                if(keyPegs[i] is KeyColor.Black)
+                    continue;
+                else if(codePegs.Contains(other.codePegs[i]))
+                    keyPegs[i] = KeyColor.White;
                 else
-                    keyPegs.Add(KeyColor.None);
+                    keyPegs[i] = KeyColor.None;
 
             return new GuessFeedback(keyPegs);
         }

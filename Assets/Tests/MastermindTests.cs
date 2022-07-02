@@ -53,22 +53,47 @@ namespace Tests
                 .AttemptMatchWith
                 (
                     Combination().With(Red).Then(3, Blue).Build()
-                ).Should()
+                )
+                .Should()
                 .BeEquivalentTo(Feedback().WithBlack().ThenNones(3).Build());
 
             Combination().AllOf(Green).Build()
                 .AttemptMatchWith
                 (
                     Combination().With(Yellow).Then(3, Green).Build()
-                ).Should()
+                )
+                .Should()
                 .BeEquivalentTo(Feedback().WithNone().ThenBlacks(3).Build());
 
-            Combination().With(Red).Then(Green).Then(Red).Then(Green).Build()
+            Combination().With(Red, Green, Red, Green).Build()
                 .AttemptMatchWith
                 (
                     Combination().AllOf(Green).Build()
-                ).Should()
+                )
+                .Should()
                 .BeEquivalentTo(Feedback().WithNone().ThenBlack().ThenNone().ThenBlack().Build());
+        }
+
+        [Test]
+        public void SameFourColors_NotRepeated_AndNotTheSamePositions_AllWhites()
+        {
+            Combination().With(Blue, Yellow, Red, Green).Build()
+                .AttemptMatchWith
+                (
+                    Combination().With(Green, Red, Yellow, Blue).Build()
+                )
+                .Should().BeEquivalentTo(AllWhites());
+        }
+
+        [Test]
+        public void SameTwoColors_Repeated_ButNotTheSamePositions_AllWhites()
+        {
+            Combination().With(Blue, Yellow, Blue, Yellow).Build()
+                .AttemptMatchWith
+                (
+                    Combination().With(Yellow, Blue, Yellow, Blue).Build()
+                )
+                .Should().BeEquivalentTo(AllWhites());
         }
     }
 }
