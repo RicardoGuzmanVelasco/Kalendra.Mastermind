@@ -11,12 +11,8 @@ U
 %UserSettings/EditorUserSettings.asset,4\d\4df36f299676af9c46f5280b556c376992c5895a
 Y
 )ProjectSettings/ClusterInputManager.asset,8\a\8a03c7dfff4f30cb6b2bfb7fa1b9cabec5508a1d
-K
-Packages/packages-lock.json,e\e\ee5c02414182ac2ee9793586b738cae04287b8bf
 T
 $ProjectSettings/EditorSettings.asset,d\1\d10385c8ac750452c4a2896f8e5d43ba1e36462c
-F
-Packages/manifest.json,c\c\cc2c44fef6067b608c229f816ad03fa26e70a2f4
 Y
 )ProjectSettings/EditorBuildSettings.asset,f\9\f968d6b48da1ab8199dcd0d76fda71b42abb7187
 T
@@ -35,8 +31,6 @@ T
 $ProjectSettings/MemorySettings.asset,6\c\6c526d5a1428597058bf632f533b70cce45671c2
 B
 Assets/Scenes.meta,8\a\8a209c573807b9ac41c7571598168c03509e41a9
-\
-,ProjectSettings/PackageManagerSettings.asset,d\9\d99f9d0a5fdbfb6c159aac394d97e39e4bdf2aa5
 T
 $ProjectSettings/NetworkManager.asset,a\8\a8c03583080ed45bc7b59fd95c851862d9d0a517
 C
