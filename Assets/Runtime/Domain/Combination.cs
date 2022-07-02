@@ -7,11 +7,12 @@ namespace Runtime.Domain
 {
     public class Combination
     {
+        public const int PegsCount = 4;
         [NotNull] readonly ICollection<CodeColor> codepegs;
 
         public Combination([NotNull] ICollection<CodeColor> codepegs)
         {
-            Require(codepegs.Count == 4).True();
+            Require(codepegs.Count == PegsCount).True();
 
             this.codepegs = codepegs;
         }
@@ -23,9 +24,9 @@ namespace Runtime.Domain
                 return new GuessFeedback(new[] { KeyColor.Black }.Concat(Enumerable.Repeat(KeyColor.None, 3))
                     .ToArray());
             if(!codepegs.Intersect(other.codepegs).Any())
-                return new GuessFeedback(Enumerable.Repeat(KeyColor.White, 4).ToList());
+                return new GuessFeedback(Enumerable.Repeat(KeyColor.White, PegsCount).ToList());
             else
-                return new GuessFeedback(Enumerable.Repeat(KeyColor.Black, 4).ToList());
+                return new GuessFeedback(Enumerable.Repeat(KeyColor.Black, PegsCount).ToList());
         }
 
         #region Formatting

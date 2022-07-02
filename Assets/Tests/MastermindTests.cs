@@ -3,6 +3,8 @@ using FluentAssertions;
 using NUnit.Framework;
 using Runtime.Domain;
 using static System.Linq.Enumerable;
+using static Runtime.Domain.CodeColor;
+using static Tests.CombinationBuilder;
 
 namespace Tests
 {
@@ -35,8 +37,8 @@ namespace Tests
         [Test]
         public void DisjuntCombination_AskedForFeedback_IsFourWhitePegs()
         {
-            var sut = new Combination(Repeat(CodeColor.Red, 4).ToArray());
-            var disjuntCombination = new Combination(Repeat(CodeColor.Blue, 4).ToArray());
+            var sut = Combination().AllOf(Red).Build();
+            var disjuntCombination = Combination().AllOf(Blue).Build();
 
             sut.AttemptMatchWith(disjuntCombination)
                 .Should().OnlyContain(c => c == KeyColor.White);
@@ -45,8 +47,8 @@ namespace Tests
         [Test]
         public void OnlySameColor_ReturnsBlackPegs()
         {
-            var sut = new Combination(Repeat(CodeColor.Red, 4).ToArray());
-            var oneSamePosition = new Combination(new[] { CodeColor.Red }.Concat(Repeat(CodeColor.Blue, 3)).ToArray());
+            var sut = Combination().AllOf(Red).Build();
+            var oneSamePosition = Combination().With(Red).Then(3, Blue).Build();
 
             sut.AttemptMatchWith(oneSamePosition).First().Should().Be(KeyColor.Black);
             sut.AttemptMatchWith(oneSamePosition).Where(c => c == KeyColor.Black).Should().HaveCount(1);
