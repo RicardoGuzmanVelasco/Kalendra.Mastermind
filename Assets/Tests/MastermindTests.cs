@@ -100,7 +100,7 @@ namespace Tests
                 .Be(Feedback().WithWhites(1).WithEmpty(3).Build());
         }
 
-        [Test, Ignore("Todo")]
+        [Test]
         public void SameFourColors_NotRepeated_AndNotTheSamePositions_AllWhites()
         {
             Combination().With(Blue, Yellow, Red, Green).Build()
@@ -112,7 +112,7 @@ namespace Tests
                 .Be(Feedback().AllWhites().Build());
         }
 
-        [Test, Ignore("Todo")]
+        [Test]
         public void SameTwoColors_Repeated_ButNotTheSamePositions_AllWhites()
         {
             Combination().With(Blue, Yellow, Blue, Yellow).Build()
