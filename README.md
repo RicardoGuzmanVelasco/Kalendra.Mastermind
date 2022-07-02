@@ -1,6 +1,11 @@
 # Kalendra.Mastermind
 Ejemplo de MasterMind dirigido desde modelo de dominio y casos de uso e implementado con TDD
 
+## Dominio base para glosario
+
+- Primera fuente: [Un set de reglas oficiales](https://magisterrex.files.wordpress.com/2014/07/mastermindrules.pdf)
+- Segunda fuente: [Mastermind wikipedia](https://en.wikipedia.org/wiki/Mastermind_(board_game))
+
 ## Modelo de dominio
 ![](Assets/Documentation~/DomainModel-Contents.png)
 
