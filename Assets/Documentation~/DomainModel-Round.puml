@@ -1,6 +1,10 @@
 ﻿@startuml
 skin rose
 
+header Mastermind domain model
+title Round
+right footer (CC-BY-SA) 2022, RGV
+
 class Guest
 class Feedback
 class SecretCode
@@ -27,7 +31,7 @@ Combination o-- "4" CodePeg
 CodePeg o-- CodeColor
 
 Winner ..> SecretCode : guesses
-Codemaker ..> SecretCode : chooses
+Codemaker ..> SecretCode : places
 Codebreaker --> Guest : makes
 Guest ..> SecretCode : attempts\nmatch\nto
 

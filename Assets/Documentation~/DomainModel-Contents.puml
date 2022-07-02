@@ -1,0 +1,37 @@
+﻿@startuml
+skin rose
+
+header Mastermind domain model
+title Contents
+right footer (CC-BY-SA) 2022, RGV
+
+class Mastermind
+class "De-Coding Board" as Board
+class Storage{
+Storage area
+for pegs
+}
+class ScoringTable
+class Shield{
+Hinged shield
+to conceal
+secret code
+}
+class CodePeg{
+large,
+round-headed
+}
+class KeyPeg{
+small,
+flat-headed
+}
+
+Mastermind *-- Board
+Mastermind *-- CodePeg : 72\n{12 each\n  of 6 colors}
+Mastermind *-- KeyPeg : 30\n{15 each\n  black & white}
+
+Board *-- Storage : "built-in"
+Board *-- ScoringTable : "built-in"
+Board *-- Shield
+
+@enduml

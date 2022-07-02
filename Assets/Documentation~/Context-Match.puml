@@ -1,0 +1,22 @@
+﻿@startuml
+skin rose
+
+header Mastermind context
+title Match
+right footer (CC-BY-SA) 2022, RGV
+
+start
+:Decide each player roles;
+while (match winner?)
+    :Prepare board;
+    :Codemaker places secret code;
+    while (winner?)
+        :Play Round;
+    endwhile([feedback == 4 black pegs])
+    :Add round points;
+    :Switch roles;
+end while ([any player points >=\npoints to win match])
+
+stop
+
+@enduml
