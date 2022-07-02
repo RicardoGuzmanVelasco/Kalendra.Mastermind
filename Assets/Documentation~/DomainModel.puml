@@ -1,0 +1,21 @@
+﻿@startuml
+skin rose
+
+class SecretCode
+class ColoredPeg
+class Guest
+class Feedback
+class Code
+class Winner
+class CodePeg
+class KeyPeg
+class CodeMaker
+class Codebreaker
+class Board
+class Player
+class Hole
+class Combination
+class Attempt
+
+
+@enduml
