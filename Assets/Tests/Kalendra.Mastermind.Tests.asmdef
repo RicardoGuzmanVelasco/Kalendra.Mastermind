@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "BoundfoxStudios.FluentAssertions",
-        "Kalendra.Mastermind.Domain"
+        "Kalendra.Mastermind.Domain",
+        "RGV.DesignByContract"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

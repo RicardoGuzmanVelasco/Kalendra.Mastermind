@@ -73,5 +73,3 @@ e
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 \
 ,ProjectSettings/PackageManagerSettings.asset,d\9\d99f9d0a5fdbfb6c159aac394d97e39e4bdf2aa5
-]
--Assets/Tests/Kalendra.Mastermind.Tests.asmdef,7\d\7d58a56819baf865bf6e6564f74beaea95f1ca4b
