@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Runtime.Domain;
 using static RGV.DesignByContract.Runtime.Precondition;
+using static Runtime.Domain.CodeColorExtensions;
 
 namespace Tests
 {
@@ -18,7 +19,7 @@ namespace Tests
         public CombinationBuilder AllRandom()
         {
             while(colors.Count < Runtime.Domain.Combination.PegsCount)
-                colors.Add(RandomColor());
+                colors.Add(RandomColor(new Random()));
             return this;
         }
 
@@ -31,14 +32,7 @@ namespace Tests
 
         public CombinationBuilder WithRandom()
         {
-            return With(RandomColor());
-        }
-
-        static CodeColor RandomColor()
-        {
-            var values = Enum.GetValues(typeof(CodeColor));
-            var color = (CodeColor)values.GetValue(new Random().Next(values.Length));
-            return color;
+            return With(RandomColor(new Random()));
         }
 
         public CombinationBuilder With(int count, CodeColor color)

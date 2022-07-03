@@ -1,4 +1,6 @@
-﻿namespace Runtime.Domain
+﻿using System;
+
+namespace Runtime.Domain
 {
     public enum CodeColor
     {
@@ -8,5 +10,15 @@
         Green,
         White,
         Black,
+    }
+
+    public static class CodeColorExtensions
+    {
+        public static CodeColor RandomColor(Random rand)
+        {
+            var values = Enum.GetValues(typeof(CodeColor));
+            var color = (CodeColor)values.GetValue(rand.Next(values.Length));
+            return color;
+        }
     }
 }

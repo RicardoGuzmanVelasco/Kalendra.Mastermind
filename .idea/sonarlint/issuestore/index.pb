@@ -81,8 +81,6 @@ F
 \Library/PackageCache/com.rgv.designbycontract@78fd3f4149/Runtime/RGV.DesignByContract.asmdef,8\0\80c85d20a173273cadad09756044368a73e310c4
 U
 %ProjectSettings/ProjectSettings.asset,f\2\f2ed32d7c38fb54ca0f77eb9645108b362199c9d
-R
-"Assets/Runtime/Domain/CodeColor.cs,a\d\ad88213b0eb71e9c4527a4c698f20e30defc7267
 g
 7Assets/Runtime/Domain/Kalendra.Mastermind.Domain.asmdef,8\7\875aa1fab09aeac783102bdd4e8ca2f6418a34f7
 ]
@@ -101,9 +99,9 @@ X
 (Assets/Tests/Api/GuessFeedbackBuilder.cs,7\0\7017767fa86d214bba4ed6295232cc95e4151a65
 K
 Assets/Tests/Api/TestApi.cs,5\f\5faa61991d58ec54ba297b69690a21e9a7b2455b
-V
-&Assets/Tests/Api/CombinationBuilder.cs,d\d\ddc7aeb73f35ac5906947a1220f91bf5fba83353
 L
 Assets/Runtime/Domain/Row.cs,e\9\e99d5f3c21a9d087a3bf3c15914cef210286dd18
 [
 +Assets/Runtime/Domain/FeedbackInspection.cs,9\b\9bebabbc4942536c1f49670debf33dff3c49edb9
+P
+ Assets/Tests/Api/BoardBuilder.cs,2\0\20c1bec2b5ab099fc0feb1fbc3c3727b35335836

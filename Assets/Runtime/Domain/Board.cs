@@ -26,7 +26,7 @@ namespace Runtime.Domain
         }
         #endregion
 
-        public void PlaceSecretCode(Combination code)
+        public void PinSecretCode(Combination code)
         {
             Require<InvalidOperationException>(secretCode).Null();
             secretCode = code;
@@ -42,7 +42,7 @@ namespace Runtime.Domain
         public bool IsFeedbackTurn => !IsFull &&
                                       RowOfCurrentRound!.HasCombination;
 
-        public void AttemptGuess(Combination guess)
+        public void PinGuessPegs(Combination guess)
         {
             Require<InvalidOperationException>(secretCode).Not.Null();
             Require<InvalidOperationException>(IsSolved).False();
@@ -50,7 +50,7 @@ namespace Runtime.Domain
             RowOfCurrentRound!.PinGuessPegs(guess);
         }
 
-        public void ResponseFeedback(GuessFeedback feedback)
+        public void PinFeedbackPegs(GuessFeedback feedback)
         {
             Require<InvalidOperationException>(secretCode).Not.Null();
             Require<InvalidOperationException>(IsSolved).False();

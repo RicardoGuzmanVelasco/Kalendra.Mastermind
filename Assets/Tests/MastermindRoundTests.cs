@@ -36,10 +36,10 @@ namespace Tests
         {
             var sut = Board().WithoutSecretCode().Build();
 
-            Action act = () => sut.AttemptGuess(Combination().AllRandom().Build());
+            Action act = () => sut.PinGuessPegs(Combination().AllRandom().Build());
             act.Should().Throw<InvalidOperationException>();
 
-            sut.PlaceSecretCode(Combination().AllRandom().Build());
+            sut.PinSecretCode(Combination().AllRandom().Build());
             act.Should().NotThrow();
         }
 
@@ -48,7 +48,7 @@ namespace Tests
         {
             var sut = Board().WithoutSecretCode().Build();
 
-            Action act = () => sut.PlaceSecretCode(Combination().AllRandom().Build());
+            Action act = () => sut.PinSecretCode(Combination().AllRandom().Build());
             act.Invoke();
 
             act.Should().Throw<InvalidOperationException>();
@@ -60,7 +60,7 @@ namespace Tests
             var sut = Board().WithoutSecretCode().Build();
 
             sut.IsGuessTurn.Should().BeFalse();
-            sut.PlaceSecretCode(Combination().AllRandom().Build());
+            sut.PinSecretCode(Combination().AllRandom().Build());
             sut.IsGuessTurn.Should().BeTrue();
         }
 
@@ -80,7 +80,7 @@ namespace Tests
         {
             var sut = Board().Build();
 
-            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
 
             sut.IsGuessTurn.Should().BeFalse();
             sut.IsFeedbackTurn.Should().BeTrue();
@@ -90,9 +90,9 @@ namespace Tests
         public void JustAfterReceiveFeedbackOfGuess_BoardAwaitsAgainForGuess()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
 
-            sut.ResponseFeedback(Feedback().AllEmpty().Build());
+            sut.PinFeedbackPegs(Feedback().AllEmpty().Build());
 
             sut.IsGuessTurn.Should().BeTrue();
             sut.IsFeedbackTurn.Should().BeFalse();
@@ -102,9 +102,9 @@ namespace Tests
         public void Cannot_AttemptGuess_TwiceInARow()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
 
-            Action act = () => sut.AttemptGuess(Combination().AllRandom().Build());
+            Action act = () => sut.PinGuessPegs(Combination().AllRandom().Build());
 
             act.Should().Throw<InvalidOperationException>();
         }
@@ -113,10 +113,10 @@ namespace Tests
         public void Cannot_ResponseFeedback_TwiceInARow()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
-            sut.ResponseFeedback(Feedback().AllEmpty().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
+            sut.PinFeedbackPegs(Feedback().AllEmpty().Build());
 
-            Action act = () => sut.ResponseFeedback(Feedback().AllEmpty().Build());
+            Action act = () => sut.PinFeedbackPegs(Feedback().AllEmpty().Build());
 
             act.Should().Throw<InvalidOperationException>();
         }
@@ -125,8 +125,8 @@ namespace Tests
         public void IsSolved_WhenLastFeedbackEndsTheRound()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
-            sut.ResponseFeedback(Feedback().AllBlacks().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
+            sut.PinFeedbackPegs(Feedback().AllBlacks().Build());
 
             sut.IsSolved.Should().BeTrue();
         }
@@ -141,8 +141,8 @@ namespace Tests
         public void NotSolved_BeforeFeedbackOfBrokenCode()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
-            sut.ResponseFeedback(Feedback().WithBlacks(3).WithEmpty(1).Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
+            sut.PinFeedbackPegs(Feedback().WithBlacks(3).WithEmpty(1).Build());
 
             sut.IsSolved.Should().BeFalse();
         }
@@ -151,10 +151,10 @@ namespace Tests
         public void Cannot_ContinueGame_IfBoardIsSolved()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
-            sut.ResponseFeedback(Feedback().AllBlacks().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
+            sut.PinFeedbackPegs(Feedback().AllBlacks().Build());
 
-            Action act = () => sut.AttemptGuess(Combination().AllRandom().Build());
+            Action act = () => sut.PinGuessPegs(Combination().AllRandom().Build());
 
             act.Should().Throw<InvalidOperationException>();
         }
@@ -163,8 +163,8 @@ namespace Tests
         public void Board_Full_AfterAllRowsAreCompleted()
         {
             var sut = Board().WithRows(1).Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
-            sut.ResponseFeedback(Feedback().WithBlacks(2).WithWhites(2).Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
+            sut.PinFeedbackPegs(Feedback().WithBlacks(2).WithWhites(2).Build());
 
             sut.IsFull.Should().BeTrue();
         }
@@ -179,7 +179,7 @@ namespace Tests
         public void Board_IsNotFull_AfterGuess()
         {
             var sut = Board().Build();
-            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.PinGuessPegs(Combination().AllRandom().Build());
 
             sut.IsFull.Should().BeFalse();
         }
