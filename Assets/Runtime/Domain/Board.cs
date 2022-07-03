@@ -26,9 +26,6 @@ namespace Runtime.Domain
         }
         #endregion
 
-        [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
-        [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);
-
         public bool IsFull => RowOfCurrentRound == null;
         public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
         public bool IsGuessTurn => !IsFull && !RowOfCurrentRound!.HasCombination;
@@ -38,7 +35,7 @@ namespace Runtime.Domain
         {
             Require<InvalidOperationException>(IsSolved).False();
 
-            RowOfCurrentRound!.PinCombinationPegs(guess);
+            RowOfCurrentRound!.PinGuessPegs(guess);
         }
 
         public void ResponseFeedback(GuessFeedback feedback)
@@ -47,5 +44,26 @@ namespace Runtime.Domain
 
             RowOfCurrentRound!.PinFeedbackPegs(feedback);
         }
+
+        public FeedbackInspection ShowWrongFeedbackGiven()
+        {
+            return WrongFeedbackGiven()
+                ? new FeedbackInspection()
+                : FeedbackInspection.NoWrong;
+
+            bool WrongFeedbackGiven()
+            {
+                foreach(var completedRow in CompletedRows)
+                    if(completedRow.CollateWith(secretCode).FeedbackWasWrong)
+                        return true;
+                return false;
+            }
+        }
+
+        #region Support methods
+        [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
+        [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);
+        IEnumerable<Row> CompletedRows => rows.Where(r => r.IsCompleted);
+        #endregion
     }
 }

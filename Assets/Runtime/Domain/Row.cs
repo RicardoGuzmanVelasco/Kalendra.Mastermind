@@ -1,22 +1,23 @@
 ﻿using System;
+using JetBrains.Annotations;
 using static RGV.DesignByContract.Runtime.Precondition;
 
 namespace Runtime.Domain
 {
     internal class Row
     {
-        Combination holesForCombination;
+        Combination holesForGuess;
         GuessFeedback holesForFeedback;
 
-        public bool HasCombination => holesForCombination != null;
+        public bool HasCombination => holesForGuess != null;
         public bool IsCompleted => HasCombination && holesForFeedback != null;
 
         public bool CodeIsBroken => holesForFeedback.IsEndOfRound;
 
-        public void PinCombinationPegs(Combination with)
+        public void PinGuessPegs(Combination with)
         {
             Require<InvalidOperationException>(HasCombination).False();
-            holesForCombination = with;
+            holesForGuess = with;
         }
 
         public void PinFeedbackPegs(GuessFeedback with)
@@ -25,6 +26,21 @@ namespace Runtime.Domain
             Require<InvalidOperationException>(IsCompleted).False();
 
             holesForFeedback = with;
+        }
+
+        [NotNull]
+        public Row.Memento CollateWith(Combination code)
+        {
+            Require(IsCompleted).True();
+
+            var correctFeedback = code.MatchWith(holesForGuess);
+
+            return new Memento
+            {
+                GuessAttempted = holesForGuess,
+                FeedbackProvided = holesForFeedback,
+                FeedbackExpected = correctFeedback
+            };
         }
 
         #region Formatting
@@ -37,10 +53,24 @@ namespace Runtime.Domain
 
             string FormatCombination()
             {
-                return holesForCombination?.ToString() ?? "xxxx";
+                return holesForGuess?.ToString() ?? "xxxx";
             }
 
             return $"{FormatCombination()} | {FormatFeedback()}";
+        }
+        #endregion
+
+        #region Nested
+        internal record Memento
+        (
+            Combination GuessAttempted,
+            GuessFeedback FeedbackProvided,
+            GuessFeedback FeedbackExpected
+        )
+        {
+            public Memento() : this(null, null, null) { }
+
+            public bool FeedbackWasWrong => !FeedbackProvided.Equals(FeedbackExpected);
         }
         #endregion
     }
