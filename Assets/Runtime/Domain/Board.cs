@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
+using static RGV.DesignByContract.Runtime.Precondition;
 
 namespace Runtime.Domain
 {
@@ -19,18 +22,25 @@ namespace Runtime.Domain
                 rows.Add(new Row());
         }
 
-        Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted) ?? rows.Last();
+        [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
+        [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);
 
-        public bool IsWaitingForGuess => !RowOfCurrentRound.HasCombination;
+        public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
+        public bool IsWaitingForGuess => !RowOfCurrentRound?.HasCombination ?? false;
+        public bool IsWaitingForFeedback => RowOfCurrentRound?.HasCombination ?? false;
 
         public void AttemptGuess(Combination guess)
         {
-            RowOfCurrentRound.PinCombinationPegs(guess);
+            Require<InvalidOperationException>(IsSolved).False();
+
+            RowOfCurrentRound!.PinCombinationPegs(guess);
         }
 
         public void ResponseFeedback(GuessFeedback feedback)
         {
-            RowOfCurrentRound.PinFeedbackPegs(feedback);
+            Require<InvalidOperationException>(IsSolved).False();
+
+            RowOfCurrentRound!.PinFeedbackPegs(feedback);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using static RGV.DesignByContract.Runtime.Precondition;
+﻿using System;
+using static RGV.DesignByContract.Runtime.Precondition;
 
 namespace Runtime.Domain
 {
@@ -10,16 +11,18 @@ namespace Runtime.Domain
         public bool HasCombination => holesForCombination != null;
         public bool IsCompleted => HasCombination && holesForFeedback != null;
 
+        public bool CodeIsBroken => holesForFeedback.IsEndOfRound;
+
         public void PinCombinationPegs(Combination with)
         {
-            Require(HasCombination).False();
+            Require<InvalidOperationException>(HasCombination).False();
             holesForCombination = with;
         }
 
         public void PinFeedbackPegs(GuessFeedback with)
         {
-            Require(HasCombination).True();
-            Require(IsCompleted).False();
+            Require<InvalidOperationException>(HasCombination).True();
+            Require<InvalidOperationException>(IsCompleted).False();
 
             holesForFeedback = with;
         }

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 using static Tests.GuessFeedbackBuilder;
 using static Tests.BoardBuilder;
@@ -36,6 +37,9 @@ namespace Tests
             Board().Build()
                 .IsWaitingForGuess
                 .Should().BeTrue();
+            Board().Build()
+                .IsWaitingForFeedback
+                .Should().BeFalse();
         }
 
         [Test]
@@ -46,6 +50,7 @@ namespace Tests
             sut.AttemptGuess(Combination().AllRandom().Build());
 
             sut.IsWaitingForGuess.Should().BeFalse();
+            sut.IsWaitingForFeedback.Should().BeTrue();
         }
 
         [Test]
@@ -57,6 +62,68 @@ namespace Tests
             sut.ResponseFeedback(Feedback().AllEmpty().Build());
 
             sut.IsWaitingForGuess.Should().BeTrue();
+            sut.IsWaitingForFeedback.Should().BeFalse();
+        }
+
+        [Test]
+        public void Cannot_AttemptGuess_TwiceInARow()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+
+            Action act = () => sut.AttemptGuess(Combination().AllRandom().Build());
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Test]
+        public void Cannot_ResponseFeedback_TwiceInARow()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.ResponseFeedback(Feedback().AllEmpty().Build());
+
+            Action act = () => sut.ResponseFeedback(Feedback().AllEmpty().Build());
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Test]
+        public void IsSolved_WhenLastFeedbackEndsTheRound()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.ResponseFeedback(Feedback().AllBlacks().Build());
+
+            sut.IsSolved.Should().BeTrue();
+        }
+
+        [Test]
+        public void NotSolved_ByDefault()
+        {
+            Board().Build().IsSolved.Should().BeFalse();
+        }
+
+        [Test]
+        public void NotSolved_BeforeFeedbackOfBrokenCode()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.ResponseFeedback(Feedback().WithBlacks(3).WithEmpty(1).Build());
+
+            sut.IsSolved.Should().BeFalse();
+        }
+
+        [Test]
+        public void Cannot_ContinueGame_IfBoardIsSolved()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.ResponseFeedback(Feedback().AllBlacks().Build());
+
+            Action act = () => sut.AttemptGuess(Combination().AllRandom().Build());
+
+            act.Should().Throw<InvalidOperationException>();
         }
     }
 }
