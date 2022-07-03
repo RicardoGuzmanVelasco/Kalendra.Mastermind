@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
+using Runtime.Domain;
 using static Tests.GuessFeedbackBuilder;
 using static Tests.BoardBuilder;
 using static Tests.CombinationBuilder;
@@ -32,7 +33,30 @@ namespace Tests
         }
 
         [Test]
-        public void Board_Starts_WaitingForGuess()
+        public void Board_WithoutSecretCode_CannotOperate()
+        {
+            var sut = new Board(1);
+
+            Action act = () => sut.AttemptGuess(Combination().AllRandom().Build());
+            act.Should().Throw<InvalidOperationException>();
+
+            sut.PlaceSecretCode(Combination().AllRandom().Build());
+            act.Should().NotThrow();
+        }
+
+        [Test]
+        public void Cannot_PlaceSecretCode_Twice()
+        {
+            var sut = new Board(1);
+
+            Action act = () => sut.PlaceSecretCode(Combination().AllRandom().Build());
+            act.Invoke();
+
+            act.Should().Throw<InvalidOperationException>();
+        }
+
+        [Test]
+        public void BoardWithSecretCode_Starts_WaitingForGuess()
         {
             Board().Build()
                 .IsGuessTurn

@@ -10,21 +10,32 @@ namespace Runtime.Domain
     {
         public const int DefaultRowsCount = 10;
 
-        readonly Combination secretCode;
         readonly List<Row> rows;
+        Combination secretCode;
 
         #region Ctors
         public Board(Combination secretCode) : this(secretCode, DefaultRowsCount) { }
 
-        public Board(Combination secretCode, int rows)
+        public Board(Combination secretCode, int rows) : this(rows)
         {
             this.secretCode = secretCode;
+        }
 
-            this.rows = new List<Row>();
+        public Board(int rows)
+        {
+            Require(rows > 0).True();
+
+            this.rows = new List<Row>(rows);
             for(var i = 0; i < rows; i++)
                 this.rows.Add(new Row());
         }
         #endregion
+
+        public void PlaceSecretCode(Combination code)
+        {
+            Require<InvalidOperationException>(secretCode).Null();
+            secretCode = code;
+        }
 
         public bool IsFull => RowOfCurrentRound == null;
         public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
@@ -33,6 +44,7 @@ namespace Runtime.Domain
 
         public void AttemptGuess(Combination guess)
         {
+            Require<InvalidOperationException>(secretCode).Not.Null();
             Require<InvalidOperationException>(IsSolved).False();
 
             RowOfCurrentRound!.PinGuessPegs(guess);
@@ -40,13 +52,16 @@ namespace Runtime.Domain
 
         public void ResponseFeedback(GuessFeedback feedback)
         {
+            Require<InvalidOperationException>(secretCode).Not.Null();
             Require<InvalidOperationException>(IsSolved).False();
 
             RowOfCurrentRound!.PinFeedbackPegs(feedback);
         }
 
-        public FeedbackInspection ShowWrongFeedbackGiven()
+        public FeedbackInspection InspectWrongFeedbackGiven()
         {
+            Require<InvalidOperationException>(secretCode).Not.Null();
+
             foreach(var row in CompletedRows)
             {
                 var comparation = row.CollateWith(secretCode);

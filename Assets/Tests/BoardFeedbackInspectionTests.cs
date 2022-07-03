@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
 using NUnit.Framework;
 using Runtime.Domain;
 using static Tests.BoardBuilder;
@@ -7,6 +8,16 @@ using static Tests.GuessFeedbackBuilder;
 
 namespace Tests
 {
+    public class PlayerTests
+    {
+        [Test]
+        public async Task Codemaker_PlacesSecretCode_InBoard()
+        {
+            Codemaker sut = new RandomPlayer(Board().Build());
+            await sut.PlaceSecretCode();
+        }
+    }
+
     public class BoardFeedbackInspectionTests
     {
         [Test]
@@ -16,7 +27,7 @@ namespace Tests
             sut.AttemptGuess(Combination().AllOf(CodeColor.Red).Build());
             sut.ResponseFeedback(Feedback().WithBlacks(3).WithEmpty(1).Build());
 
-            sut.ShowWrongFeedbackGiven().Should().NotBe(FeedbackInspection.NoWrong);
+            sut.InspectWrongFeedbackGiven().Should().NotBe(FeedbackInspection.NoWrong);
         }
 
         [Test]
@@ -26,7 +37,7 @@ namespace Tests
             sut.AttemptGuess(Combination().AllOf(CodeColor.Red).Build());
             sut.ResponseFeedback(Feedback().AllBlacks().Build());
 
-            sut.ShowWrongFeedbackGiven().Should().Be(FeedbackInspection.NoWrong);
+            sut.InspectWrongFeedbackGiven().Should().Be(FeedbackInspection.NoWrong);
         }
 
         [Test]
@@ -38,7 +49,7 @@ namespace Tests
             sut.AttemptGuess(code.Build());
             sut.ResponseFeedback(Feedback().WithEmpty(4).Build());
 
-            sut.ShowWrongFeedbackGiven().CorrectFeedback
+            sut.InspectWrongFeedbackGiven().CorrectFeedback
                 .Should()
                 .Be(Feedback().AllBlacks().Build());
         }
@@ -52,7 +63,7 @@ namespace Tests
             sut.AttemptGuess(code.Build());
             sut.ResponseFeedback(Feedback().WithEmpty(4).Build());
 
-            sut.ShowWrongFeedbackGiven().Row.Should().Be(1);
+            sut.InspectWrongFeedbackGiven().Row.Should().Be(1);
         }
     }
 }
