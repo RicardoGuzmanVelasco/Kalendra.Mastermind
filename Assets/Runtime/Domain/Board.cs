@@ -86,6 +86,8 @@ namespace Runtime.Domain
         }
 
         #region Support methods
+        internal int Round => 1 + rows.IndexOf(RowOfCurrentRound ?? rows.Last());
+
         [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
         [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);
         IEnumerable<Row> CompletedRows => rows.Where(r => r.IsCompleted);

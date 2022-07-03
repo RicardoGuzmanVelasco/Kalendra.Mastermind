@@ -4,18 +4,7 @@ using System.Threading.Tasks;
 
 namespace Runtime.Domain
 {
-    public interface Codebreaker
-    {
-        Task AttemptGuess();
-    }
-
-    public interface Codemaker
-    {
-        Task PlaceSecretCode();
-        Task GiveFeedback();
-    }
-
-    public class RandomPlayer : Codemaker, Codebreaker
+    public class RandomPlayer : Player
     {
         readonly Board board;
         readonly Random random;

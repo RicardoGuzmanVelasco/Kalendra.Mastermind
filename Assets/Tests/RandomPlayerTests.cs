@@ -6,12 +6,6 @@ using static Tests.CombinationBuilder;
 
 namespace Tests
 {
-    public class RoundTests
-    {
-        [Test]
-        public void METHOD() { }
-    }
-
     public class RandomPlayerTests
     {
         [Test]
