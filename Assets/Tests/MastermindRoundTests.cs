@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using static Tests.GuessFeedbackBuilder;
 using static Tests.BoardBuilder;
+using static Tests.CombinationBuilder;
 
 namespace Tests
 {
@@ -35,6 +36,27 @@ namespace Tests
             Board().Build()
                 .IsWaitingForGuess
                 .Should().BeTrue();
+        }
+
+        [Test]
+        public void JustAfterReceiveGuess_BoardWaitsNotForGuess()
+        {
+            var sut = Board().Build();
+
+            sut.AttemptGuess(Combination().AllRandom().Build());
+
+            sut.IsWaitingForGuess.Should().BeFalse();
+        }
+
+        [Test]
+        public void JustAfterReceiveFeedbackOfGuess_BoardAwaitsAgainForGuess()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+
+            sut.ResponseFeedback(Feedback().AllEmpty().Build());
+
+            sut.IsWaitingForGuess.Should().BeTrue();
         }
     }
 }
