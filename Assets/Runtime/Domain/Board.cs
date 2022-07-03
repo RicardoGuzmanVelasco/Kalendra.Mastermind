@@ -8,12 +8,13 @@ namespace Runtime.Domain
 {
     public class Board
     {
-        const int RowsCount = 10;
+        public const int DefaultRowsCount = 10;
 
         readonly Combination secretCode;
         readonly List<Row> rows;
 
-        public Board(Combination secretCode) : this(secretCode, RowsCount) { }
+        #region Ctors
+        public Board(Combination secretCode) : this(secretCode, DefaultRowsCount) { }
 
         public Board(Combination secretCode, int rows)
         {
@@ -23,13 +24,15 @@ namespace Runtime.Domain
             for(var i = 0; i < rows; i++)
                 this.rows.Add(new Row());
         }
+        #endregion
 
         [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
         [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);
 
+        public bool IsFull => RowOfCurrentRound == null;
         public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
-        public bool IsGuessTurn => !RowOfCurrentRound?.HasCombination ?? false;
-        public bool IsFeedbackTurn => RowOfCurrentRound?.HasCombination ?? false;
+        public bool IsGuessTurn => !IsFull && !RowOfCurrentRound!.HasCombination;
+        public bool IsFeedbackTurn => !IsFull && RowOfCurrentRound!.HasCombination;
 
         public void AttemptGuess(Combination guess)
         {

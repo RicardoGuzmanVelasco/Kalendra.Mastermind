@@ -125,5 +125,30 @@ namespace Tests
 
             act.Should().Throw<InvalidOperationException>();
         }
+
+        [Test]
+        public void Board_Full_AfterAllRowsAreCompleted()
+        {
+            var sut = Board().WithRows(1).Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+            sut.ResponseFeedback(Feedback().WithBlacks(2).WithWhites(2).Build());
+
+            sut.IsFull.Should().BeTrue();
+        }
+
+        [Test]
+        public void Board_IsNotFull_ByDefault()
+        {
+            Board().Build().IsFull.Should().BeFalse();
+        }
+
+        [Test]
+        public void Board_IsNotFull_AfterGuess()
+        {
+            var sut = Board().Build();
+            sut.AttemptGuess(Combination().AllRandom().Build());
+
+            sut.IsFull.Should().BeFalse();
+        }
     }
 }
