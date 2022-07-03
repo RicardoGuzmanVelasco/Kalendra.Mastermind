@@ -22,7 +22,7 @@ namespace Tests
         [Test]
         public void MustResultIn_NoWrongFeedback_IfFeedbackWasAllCorrect()
         {
-            var sut = Board().WithRows(1).WithSecretCode(Combination().AllOf(CodeColor.Red)).Build();
+            var sut = Board().WithSecretCode(Combination().AllOf(CodeColor.Red)).Build();
             sut.AttemptGuess(Combination().AllOf(CodeColor.Red).Build());
             sut.ResponseFeedback(Feedback().AllBlacks().Build());
 
@@ -30,6 +30,29 @@ namespace Tests
         }
 
         [Test]
-        public void WrongFeedback_IncludesInformationAboutTheMiss() { }
+        public void WrongFeedback_IncludesInformationAboutTheMiss()
+        {
+            var code = Combination().AllOf(CodeColor.Red);
+            var sut = Board().WithSecretCode(code).Build();
+
+            sut.AttemptGuess(code.Build());
+            sut.ResponseFeedback(Feedback().WithEmpty(4).Build());
+
+            sut.ShowWrongFeedbackGiven().CorrectFeedback
+                .Should()
+                .Be(Feedback().AllBlacks().Build());
+        }
+
+        [Test]
+        public void WrongFeedback_IncludesRowOfTheMiss_IndexBased1()
+        {
+            var code = Combination().AllOf(CodeColor.Red);
+            var sut = Board().WithSecretCode(code).Build();
+
+            sut.AttemptGuess(code.Build());
+            sut.ResponseFeedback(Feedback().WithEmpty(4).Build());
+
+            sut.ShowWrongFeedbackGiven().Row.Should().Be(1);
+        }
     }
 }

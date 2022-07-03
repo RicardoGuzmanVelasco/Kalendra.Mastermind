@@ -1,9 +1,12 @@
 ﻿namespace Runtime.Domain
 {
-    public class FeedbackInspection
+    /// <param name="Row">1-BASED INDEX !!!</param>
+    public record FeedbackInspection(int Row, GuessFeedback CorrectFeedback)
     {
+        public FeedbackInspection() : this(0, null) { }
+
         public static FeedbackInspection NoWrong { get; } = new NoWrongFeedback();
 
-        sealed class NoWrongFeedback : FeedbackInspection { }
+        sealed record NoWrongFeedback : FeedbackInspection { }
     }
 }

@@ -47,17 +47,18 @@ namespace Runtime.Domain
 
         public FeedbackInspection ShowWrongFeedbackGiven()
         {
-            return WrongFeedbackGiven()
-                ? new FeedbackInspection()
-                : FeedbackInspection.NoWrong;
-
-            bool WrongFeedbackGiven()
+            foreach(var row in CompletedRows)
             {
-                foreach(var completedRow in CompletedRows)
-                    if(completedRow.CollateWith(secretCode).FeedbackWasWrong)
-                        return true;
-                return false;
+                var comparation = row.CollateWith(secretCode);
+                if(comparation.FeedbackWasWrong)
+                    return new FeedbackInspection
+                    {
+                        Row = rows.IndexOf(row) + 1,
+                        CorrectFeedback = comparation.FeedbackExpected
+                    };
             }
+
+            return FeedbackInspection.NoWrong;
         }
 
         #region Support methods
