@@ -13,7 +13,8 @@ namespace Tests
         [Test]
         public async Task Codemaker_PlacesSecretCode_InBoard()
         {
-            Codemaker sut = new RandomPlayer(Board().Build());
+            var doc = Board().WithoutSecretCode().Build();
+            Codemaker sut = new RandomPlayer(doc);
             await sut.PlaceSecretCode();
         }
     }

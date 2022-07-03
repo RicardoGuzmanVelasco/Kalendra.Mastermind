@@ -16,6 +16,12 @@ namespace Tests
             return new BoardBuilder();
         }
 
+        public BoardBuilder WithoutSecretCode()
+        {
+            secretCodeBuilder = null;
+            return this;
+        }
+
         public BoardBuilder WithRows(int rows)
         {
             Require(rows).Positive();
@@ -32,7 +38,7 @@ namespace Tests
 
         public Board Build()
         {
-            return new Board(secretCodeBuilder.Build(), boardRows);
+            return new Board(secretCodeBuilder?.Build(), boardRows);
         }
     }
 }

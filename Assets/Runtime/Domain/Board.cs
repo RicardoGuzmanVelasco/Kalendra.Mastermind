@@ -14,9 +14,9 @@ namespace Runtime.Domain
         Combination secretCode;
 
         #region Ctors
-        public Board(Combination secretCode) : this(secretCode, DefaultRowsCount) { }
+        public Board([CanBeNull] Combination secretCode) : this(secretCode, DefaultRowsCount) { }
 
-        public Board(Combination secretCode, int rows) : this(rows)
+        public Board([CanBeNull] Combination secretCode, int rows) : this(rows)
         {
             this.secretCode = secretCode;
         }
@@ -39,8 +39,13 @@ namespace Runtime.Domain
 
         public bool IsFull => RowOfCurrentRound == null;
         public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
-        public bool IsGuessTurn => !IsFull && !RowOfCurrentRound!.HasCombination;
-        public bool IsFeedbackTurn => !IsFull && RowOfCurrentRound!.HasCombination;
+
+        public bool IsGuessTurn => secretCode is not null &&
+                                   !IsFull &&
+                                   !RowOfCurrentRound!.HasCombination;
+
+        public bool IsFeedbackTurn => !IsFull &&
+                                      RowOfCurrentRound!.HasCombination;
 
         public void AttemptGuess(Combination guess)
         {
