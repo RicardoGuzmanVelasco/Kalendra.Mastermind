@@ -14,16 +14,11 @@ namespace Runtime.Domain
         Combination secretCode;
 
         #region Ctors
-        public Board([CanBeNull] Combination secretCode) : this(secretCode, DefaultRowsCount) { }
-
-        public Board([CanBeNull] Combination secretCode, int rows) : this(rows)
-        {
-            this.secretCode = secretCode;
-        }
-
-        public Board(int rows)
+        public Board(int rows, [CanBeNull] Combination secretCode)
         {
             Require(rows > 0).True();
+
+            this.secretCode = secretCode;
 
             this.rows = new List<Row>(rows);
             for(var i = 0; i < rows; i++)

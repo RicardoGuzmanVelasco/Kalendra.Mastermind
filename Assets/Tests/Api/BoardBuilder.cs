@@ -38,7 +38,7 @@ namespace Tests
 
         public Board Build()
         {
-            return new Board(secretCodeBuilder?.Build(), boardRows);
+            return new Board(boardRows, secretCodeBuilder?.Build());
         }
     }
 }
