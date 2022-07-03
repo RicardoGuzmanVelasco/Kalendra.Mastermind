@@ -7,6 +7,6 @@
 
         public static FeedbackInspection NoWrong { get; } = new NoWrongFeedback();
 
-        sealed record NoWrongFeedback : FeedbackInspection { }
+        sealed record NoWrongFeedback : FeedbackInspection;
     }
 }

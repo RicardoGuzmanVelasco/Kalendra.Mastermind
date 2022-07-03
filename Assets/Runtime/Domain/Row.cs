@@ -29,7 +29,7 @@ namespace Runtime.Domain
         }
 
         [NotNull]
-        public Row.Memento CollateWith(Combination code)
+        public Memento CollateWith(Combination code)
         {
             Require(IsCompleted).True();
 
