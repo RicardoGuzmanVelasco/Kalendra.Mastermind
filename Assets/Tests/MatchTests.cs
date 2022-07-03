@@ -19,5 +19,16 @@ namespace Tests
 
             sut.Round.Should().Be(2);
         }
+
+        [Test]
+        public async Task PlayAllRoundsOfMatch()
+        {
+            var sut = new Match(b => new RandomPlayer(b));
+
+            await sut.AskForCode();
+            await sut.PlayUntilRoundsEnd();
+
+            sut.Round.Should().Be(Board.DefaultRowsCount);
+        }
     }
 }

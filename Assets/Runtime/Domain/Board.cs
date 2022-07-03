@@ -32,6 +32,8 @@ namespace Runtime.Domain
             secretCode = code;
         }
 
+        public bool IsStillInPlay => !IsFull && !IsSolved;
+
         public bool IsFull => RowOfCurrentRound == null;
         public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
 
@@ -78,7 +80,7 @@ namespace Runtime.Domain
 
         public void Clear()
         {
-            Require<InvalidOperationException>(IsFull || IsSolved).True();
+            Require<InvalidOperationException>(IsStillInPlay).False();
 
             secretCode = null;
             for(var i = 0; i < rows.Count; i++)

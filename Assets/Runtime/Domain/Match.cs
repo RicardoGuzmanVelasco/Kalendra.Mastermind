@@ -34,5 +34,12 @@ namespace Runtime.Domain
             await codebreaker.AttemptGuess();
             await codemaker.GiveFeedback();
         }
+
+        public async Task PlayUntilRoundsEnd()
+        {
+            do
+                await PlayRound();
+            while(board.IsStillInPlay);
+        }
     }
 }
