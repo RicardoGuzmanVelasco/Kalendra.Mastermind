@@ -26,8 +26,8 @@ namespace Runtime.Domain
         [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);
 
         public bool IsSolved => RowOfLastRound?.CodeIsBroken ?? false;
-        public bool IsWaitingForGuess => !RowOfCurrentRound?.HasCombination ?? false;
-        public bool IsWaitingForFeedback => RowOfCurrentRound?.HasCombination ?? false;
+        public bool IsGuessTurn => !RowOfCurrentRound?.HasCombination ?? false;
+        public bool IsFeedbackTurn => RowOfCurrentRound?.HasCombination ?? false;
 
         public void AttemptGuess(Combination guess)
         {

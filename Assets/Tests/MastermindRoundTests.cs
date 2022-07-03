@@ -35,10 +35,10 @@ namespace Tests
         public void Board_Starts_WaitingForGuess()
         {
             Board().Build()
-                .IsWaitingForGuess
+                .IsGuessTurn
                 .Should().BeTrue();
             Board().Build()
-                .IsWaitingForFeedback
+                .IsFeedbackTurn
                 .Should().BeFalse();
         }
 
@@ -49,8 +49,8 @@ namespace Tests
 
             sut.AttemptGuess(Combination().AllRandom().Build());
 
-            sut.IsWaitingForGuess.Should().BeFalse();
-            sut.IsWaitingForFeedback.Should().BeTrue();
+            sut.IsGuessTurn.Should().BeFalse();
+            sut.IsFeedbackTurn.Should().BeTrue();
         }
 
         [Test]
@@ -61,8 +61,8 @@ namespace Tests
 
             sut.ResponseFeedback(Feedback().AllEmpty().Build());
 
-            sut.IsWaitingForGuess.Should().BeTrue();
-            sut.IsWaitingForFeedback.Should().BeFalse();
+            sut.IsGuessTurn.Should().BeTrue();
+            sut.IsFeedbackTurn.Should().BeFalse();
         }
 
         [Test]
