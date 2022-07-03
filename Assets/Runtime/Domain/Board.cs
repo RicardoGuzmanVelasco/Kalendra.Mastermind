@@ -76,6 +76,15 @@ namespace Runtime.Domain
             return FeedbackInspection.NoWrong;
         }
 
+        public void Clear()
+        {
+            Require<InvalidOperationException>(IsFull || IsSolved).True();
+
+            secretCode = null;
+            for(var i = 0; i < rows.Count; i++)
+                rows[i] = new Row();
+        }
+
         #region Support methods
         [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
         [CanBeNull] Row RowOfCurrentRound => rows.FirstOrDefault(r => !r.IsCompleted);

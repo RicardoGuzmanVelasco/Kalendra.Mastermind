@@ -6,7 +6,13 @@ using static Tests.CombinationBuilder;
 
 namespace Tests
 {
-    public class PlayerTests
+    public class RoundTests
+    {
+        [Test]
+        public void METHOD() { }
+    }
+
+    public class RandomPlayerTests
     {
         [Test]
         public async Task Codemaker_PlacesSecretCode_InBoard()
