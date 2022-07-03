@@ -19,7 +19,7 @@ namespace Tests
         public CombinationBuilder AllRandom()
         {
             while(colors.Count < Runtime.Domain.Combination.PegsCount)
-                colors.Add(RandomColor(new Random()));
+                colors.Add(RandomCodeColor(new Random()));
             return this;
         }
 
@@ -32,7 +32,7 @@ namespace Tests
 
         public CombinationBuilder WithRandom()
         {
-            return With(RandomColor(new Random()));
+            return With(RandomCodeColor(new Random()));
         }
 
         public CombinationBuilder With(int count, CodeColor color)

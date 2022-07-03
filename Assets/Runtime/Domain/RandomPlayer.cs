@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using static Runtime.Domain.CodeColorExtensions;
 
 namespace Runtime.Domain
 {
@@ -12,6 +12,7 @@ namespace Runtime.Domain
     public interface Codemaker
     {
         Task PlaceSecretCode();
+        Task GiveFeedback();
     }
 
     public class RandomPlayer : Codemaker, Codebreaker
@@ -27,13 +28,20 @@ namespace Runtime.Domain
 
         public Task PlaceSecretCode()
         {
-            board.PinSecretCode(RandomComb());
+            board.PinSecretCodePegs(RandomComb());
             return Task.CompletedTask;
         }
 
         public Task AttemptGuess()
         {
-            return default;
+            board.PinGuessPegs(RandomComb());
+            return Task.CompletedTask;
+        }
+
+        public Task GiveFeedback()
+        {
+            board.PinFeedbackPegs(RandomFeedbackNoAllBlacks());
+            return Task.CompletedTask;
         }
 
         #region Support methods
@@ -42,9 +50,21 @@ namespace Runtime.Domain
             var pegs = new CodeColor[Combination.PegsCount];
 
             for(var i = 0; i < pegs.Length; i++)
-                pegs[i] = RandomColor(random);
+                pegs[i] = CodeColorExtensions.RandomCodeColor(random);
 
             return new Combination(pegs);
+        }
+
+        GuessFeedback RandomFeedbackNoAllBlacks()
+        {
+            var pegs = new KeyColor[Combination.PegsCount];
+
+            for(var i = 0; i < pegs.Length; i++)
+                pegs[i] = KeyColorExtensions.RandomKeyColor(random);
+
+            return pegs.All(c => c == KeyColor.Black)
+                ? RandomFeedbackNoAllBlacks()
+                : new GuessFeedback(pegs);
         }
         #endregion
     }

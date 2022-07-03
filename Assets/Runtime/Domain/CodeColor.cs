@@ -14,7 +14,7 @@ namespace Runtime.Domain
 
     public static class CodeColorExtensions
     {
-        public static CodeColor RandomColor(Random rand)
+        public static CodeColor RandomCodeColor(Random rand)
         {
             var values = Enum.GetValues(typeof(CodeColor));
             var color = (CodeColor)values.GetValue(rand.Next(values.Length));

@@ -39,7 +39,7 @@ namespace Tests
             Action act = () => sut.PinGuessPegs(Combination().AllRandom().Build());
             act.Should().Throw<InvalidOperationException>();
 
-            sut.PinSecretCode(Combination().AllRandom().Build());
+            sut.PinSecretCodePegs(Combination().AllRandom().Build());
             act.Should().NotThrow();
         }
 
@@ -48,7 +48,7 @@ namespace Tests
         {
             var sut = Board().WithoutSecretCode().Build();
 
-            Action act = () => sut.PinSecretCode(Combination().AllRandom().Build());
+            Action act = () => sut.PinSecretCodePegs(Combination().AllRandom().Build());
             act.Invoke();
 
             act.Should().Throw<InvalidOperationException>();
@@ -60,7 +60,7 @@ namespace Tests
             var sut = Board().WithoutSecretCode().Build();
 
             sut.IsGuessTurn.Should().BeFalse();
-            sut.PinSecretCode(Combination().AllRandom().Build());
+            sut.PinSecretCodePegs(Combination().AllRandom().Build());
             sut.IsGuessTurn.Should().BeTrue();
         }
 

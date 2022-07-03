@@ -89,8 +89,6 @@ V
 &Assets/Runtime/Domain/GuessFeedback.cs,b\f\bfa7c2ea7104fd8fafc2ddef6f3103aa90010b81
 Q
 !Assets/Tests/CombinationsTests.cs,0\1\01306ea20dfb9c435429f6e771d9a5f02fd03631
-Q
-!Assets/Runtime/Domain/KeyColor.cs,a\6\a61e8f3ab57aeafc1a7332740e2970c0ee1f3fc0
 T
 $Assets/Runtime/Domain/Combination.cs,8\c\8c25a043ccbd6a19802cefcacb1de32d5ff790b0
 \

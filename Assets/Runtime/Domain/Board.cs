@@ -26,7 +26,7 @@ namespace Runtime.Domain
         }
         #endregion
 
-        public void PinSecretCode(Combination code)
+        public void PinSecretCodePegs(Combination code)
         {
             Require<InvalidOperationException>(secretCode).Null();
             secretCode = code;
