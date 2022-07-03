@@ -13,13 +13,15 @@ namespace Runtime.Domain
         readonly Combination secretCode;
         readonly List<Row> rows;
 
-        public Board(Combination secretCode)
+        public Board(Combination secretCode) : this(secretCode, RowsCount) { }
+
+        public Board(Combination secretCode, int rows)
         {
             this.secretCode = secretCode;
 
-            rows = new List<Row>();
-            for(var i = 0; i < RowsCount; i++)
-                rows.Add(new Row());
+            this.rows = new List<Row>();
+            for(var i = 0; i < rows; i++)
+                this.rows.Add(new Row());
         }
 
         [CanBeNull] Row RowOfLastRound => rows.LastOrDefault(r => r.IsCompleted);
